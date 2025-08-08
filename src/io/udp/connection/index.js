@@ -80,7 +80,7 @@ class Connection extends EventEmitter {
                 this.send(socket);
                 const payload = data.slice(20, 20 + this.TOsize);
                 this.inputData = payload;
-                this.emit("message", payload);
+                this.emit("message", Buffer.copyBytesFrom(payload));
             }
         } 
     }
