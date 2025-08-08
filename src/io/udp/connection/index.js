@@ -98,7 +98,7 @@ class Connection extends EventEmitter {
             .catch(() => {
                 that.lastDataTime = 0;
                 that.connected = false;
-                setTimeout(() => that._connectTCP(that), that.rpi * 20);
+                setTimeout(() => that._connectTCP(that), 1000);
             });
     }
 
