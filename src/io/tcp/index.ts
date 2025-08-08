@@ -291,7 +291,7 @@ class Controller extends ENIP {
         
 
         this.state.fwd_open_serial = getRandomInt(32767);
-        const forwardOpenData = CIP.ConnectionManager.build_forwardOpen(this.state.rpi * 1000, paramsOT, 1000 , 32, this.state.fwd_open_serial);
+        const forwardOpenData = CIP.ConnectionManager.build_forwardOpen(this.state.rpi * 1000, paramsOT, 1000 , 128, this.state.fwd_open_serial);
 
     
 
