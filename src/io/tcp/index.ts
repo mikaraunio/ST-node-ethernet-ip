@@ -442,7 +442,7 @@ class Controller extends ENIP {
 
         this.removeAllListeners("Forward Close");
         
-        const OTconnID = data.readUInt32LE(0); // first 4 Bytes are O->T connection ID 
+        const OTconnID = data.length >= 4 ? data.readUInt32LE(0) : 1; // first 4 Bytes are O->T connection ID 
         super.id_conn = OTconnID;
         super.established_conn = false;
         super.establishing_conn = true;
