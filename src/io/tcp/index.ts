@@ -286,7 +286,7 @@ class Controller extends ENIP {
         const MR = CIP.MessageRouter.build(FORWARD_OPEN, cmPath, Buffer.from([]));
 
         // Create connection parameters
-        const paramsOT = CIP.ConnectionManager.build_connectionParameters(owner.Exclusive, connectionType.PointToPoint, priority.Scheduled, fixedVar.Fixed, 6 + this.outputInstance.size);
+        const paramsOT = CIP.ConnectionManager.build_connectionParameters(owner.Exclusive, connectionType.PointToPoint, priority.Scheduled, fixedVar.Fixed, 2 + this.outputInstance.size);
         const paramsTO = CIP.ConnectionManager.build_connectionParameters(owner.Exclusive, connectionType.PointToPoint, priority.Scheduled, fixedVar.Fixed, 2 + this.inputInstance.size);
         
 
