@@ -74,7 +74,9 @@ class Connection extends EventEmitter {
                 if (this.cipCount > 0xFFFF)
                     this.cipCount = 0;
                 this.send(socket);
-                this.inputData = data.slice(20, 20 + this.TOsize);
+                const payload = data.slice(20, 20 + this.TOsize);
+                this.inputData = payload;
+                this.emit("message", payload);
             }
         }
     }

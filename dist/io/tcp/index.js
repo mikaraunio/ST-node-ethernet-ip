@@ -223,7 +223,7 @@ class Controller extends enip_1.ENIP {
         const paramsOT = enip_1.CIP.ConnectionManager.build_connectionParameters(owner.Exclusive, connectionType.PointToPoint, priority.Scheduled, fixedVar.Fixed, 2 + this.outputInstance.size);
         const paramsTO = enip_1.CIP.ConnectionManager.build_connectionParameters(owner.Exclusive, connectionType.PointToPoint, priority.Scheduled, fixedVar.Fixed, 2 + this.inputInstance.size);
         this.state.fwd_open_serial = getRandomInt(32767);
-        const forwardOpenData = enip_1.CIP.ConnectionManager.build_forwardOpen(this.state.rpi * 1000, paramsOT, 1000, 32, this.state.fwd_open_serial);
+        const forwardOpenData = enip_1.CIP.ConnectionManager.build_forwardOpen(this.state.rpi * 1000, paramsOT, 1000, 128, this.state.fwd_open_serial);
         const ioPath = this._ioPath();
         // This is the Connection Path data unit (Vol.1 Table 3-5.21)
         const connectionPath = Buffer.concat([
