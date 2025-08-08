@@ -111,16 +111,18 @@ const generateEncodedTimeout = (timeout: number): UCMMSendTimeout => {
  *
  * @param timeOutMs - How many ticks until a timeout is thrown
  * @param timeOutMult - A multiplier used for the Timeout 
- * @param otRPI - O->T Request packet interval in milliseconds.
+ * @param toRPI - T->O Request packet interval in microseconds.
  * @param serialOrig - Originator Serial Number (SerNo of the PLC)
  * @param netConnParams - Encoded network connection parameters
  * @returns Data portion of the forwardOpen packet
  */
-const build_forwardOpen = (otRPI:number = 8000, netConnParams:number = 0x43f4, timeOutMs:number = 1000 , timeOutMult:number = 32, connectionSerial:number = 0x4242, TOconnectionID:number = getRandomInt(2147483647)): Buffer => {
+const build_forwardOpen = (toRPI:number = 8000, netConnParams:number = 0x43f4, timeOutMs:number = 1000 , timeOutMult:number = 32, connectionSerial:number = 0x4242, TOconnectionID:number = getRandomInt(2147483647)): Buffer => {
     if (timeOutMs <= 900 || typeof timeOutMs !== "number") throw new Error("Timeouts Must be Positive Integers and above 500");
     if (!(timeOutMult in timeOutMultiplier) || typeof timeOutMult !== "number") throw new Error("Timeout Multiplier must be a number and a multiple of 4");
-    if (otRPI < 8000 || typeof otRPI !== "number") throw new Error("otRPI should be at least 8000 (8ms)");
+    if (toRPI < 8000 || typeof toRPI !== "number") throw new Error("otRPI should be at least 8000 (8ms)");
     if (typeof netConnParams !== "number") throw new Error("ConnectionParams should be created by the builder and result in a number!");
+
+    const otRPI = 100 * 1000;  // O->T packet interval in microseconds. XXX TODO Let this be customizable
 
     const actualMultiplier = timeOutMultiplier[timeOutMult];
     const connectionParams = Buffer.alloc(35); // Normal forward open request
@@ -146,7 +148,7 @@ const build_forwardOpen = (otRPI:number = 8000, netConnParams:number = 0x43f4, t
     ptr+=4;
     connectionParams.writeUInt16LE(netConnParams,ptr); // O->T Network Connection Params
     ptr+=2;
-    connectionParams.writeUInt32LE(otRPI,ptr); // T->O RPI
+    connectionParams.writeUInt32LE(toRPI,ptr); // T->O RPI
     ptr+=4;
     connectionParams.writeUInt16LE(netConnParams,ptr); // T->O Network Connection Params
     ptr+=2;
