@@ -36,7 +36,7 @@ class Connection extends EventEmitter {
         setInterval(() => that._checkStatus(that), 1000);
     }
     generateDataMessage() {
-        let ioEnipPacket = Buffer.alloc(24);
+        let ioEnipPacket = Buffer.alloc(20);
         let ptr = 0;
         ioEnipPacket.writeUInt16LE(2); // Item Count
         ptr += 2;
@@ -50,11 +50,9 @@ class Connection extends EventEmitter {
         ptr += 4;
         ioEnipPacket.writeUInt16LE(0x00b1, ptr); //Connected Data Item
         ptr += 2;
-        ioEnipPacket.writeUInt16LE(6 + this.outputData.length, ptr); // Item Length
+        ioEnipPacket.writeUInt16LE(2 + this.outputData.length, ptr); // Item Length
         ptr += 2;
         ioEnipPacket.writeUInt16LE(this.cipCount, ptr); // cip count
-        ptr += 2;
-        ioEnipPacket.writeUInt32LE(1, ptr); // 32-bit header
         return Buffer.concat([ioEnipPacket, this.outputData]);
     }
     send(socket) {
