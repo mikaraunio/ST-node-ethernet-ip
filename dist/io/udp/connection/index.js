@@ -33,7 +33,7 @@ class Connection extends EventEmitter {
         this._connectTCP(that);
         this.inputMap = new inputmap_1.default();
         this.outputMap = new outputmap_1.default();
-        setInterval(() => that._checkStatus(that), 1000);
+        setInterval(() => that._checkStatus(that), 100);
     }
     generateDataMessage() {
         let ioEnipPacket = Buffer.alloc(20);
@@ -93,11 +93,12 @@ class Connection extends EventEmitter {
             .catch(() => {
             that.lastDataTime = 0;
             that.connected = false;
-            setTimeout(() => that._connectTCP(that), 1000);
+            setTimeout(() => that._connectTCP(that), that.rpi * 20);
         });
     }
     _checkStatus(that) {
-        if (Date.now() - that.lastDataTime > that.tcpController.rpi * 4) {
+        if (Date.now() - that.lastDataTime > that.tcpController.rpi * 8) {
+            console.log("!!! UDP receive timed out");
             if (that.connected) {
                 that.emit("disconnected", null);
                 that.TOid = 0;
@@ -108,6 +109,7 @@ class Connection extends EventEmitter {
         }
         else {
             if (!that.connected) {
+                console.log("!!! receiving UDP");
                 that.emit("connected", null);
             }
             that.connected = true;

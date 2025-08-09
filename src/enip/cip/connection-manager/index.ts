@@ -122,7 +122,7 @@ const build_forwardOpen = (toRPI:number = 8000, netConnParams:number = 0x43f4, t
     if (toRPI < 8000 || typeof toRPI !== "number") throw new Error("otRPI should be at least 8000 (8ms)");
     if (typeof netConnParams !== "number") throw new Error("ConnectionParams should be created by the builder and result in a number!");
 
-    const otRPI = 100 * 1000;  // O->T packet interval in microseconds. XXX TODO Let this be customizable
+    const otRPI = toRPI;  // O->T packet interval in microseconds. XXX TODO Let this be customizable
 
     const actualMultiplier = timeOutMultiplier[timeOutMult];
     const connectionParams = Buffer.alloc(35); // Normal forward open request
