@@ -253,7 +253,9 @@ class Controller extends ENIP {
      * @returns {Promise}
      */
     async disconnect() {
+        console.log("!!! Disconnecting TCP connection")
         if (super.established_conn === true) {
+            console.log("!!! ... Sending Forward Close Request")
             const closeid = await this.forwardClose();
             if(!closeid) throw new Error("Failed to End Connected EIP Session with Forward Close Request");
         }
@@ -261,6 +263,7 @@ class Controller extends ENIP {
         super.destroy();
 
         this._removeControllerEventHandlers();
+        console.log("!!! Done disconnecting TCP connection")
         return "disconnected";
     }
 

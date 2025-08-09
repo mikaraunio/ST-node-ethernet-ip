@@ -90,10 +90,12 @@ class Connection extends EventEmitter {
         that.tcpController = new TCPController(true, that.config.configInstance, that.config.outputInstance, that.config.inputInstance);
         that.tcpController.rpi = that.rpi;
         that.tcpController.timeout_sp = 2000;
+        that.tcpController.on("close", (hadError) => { console.log("!!! TCP Disconnected (hadError " + hadError + ")"); });
         that.tcpController.connect(that.address, 0, that.localAddress)
             .then ( () => {
                 that.OTid = that.tcpController.OTconnectionID;
                 that.TOid = that.tcpController.TOconnectionID;
+                console.log("!!! TCP Connected"); 
             })
             .catch(() => {
                 that.lastDataTime = 0;
@@ -103,9 +105,9 @@ class Connection extends EventEmitter {
     }
 
     _checkStatus(that) {
-        if (Date.now() - that.lastDataTime > that.tcpController.rpi * 8) {
-            console.log("!!! UDP receive timed out");
+        if (Date.now() - that.lastDataTime > that.tcpController.rpi * 32) {
             if (that.connected) {
+                console.log("!!! UDP receive timed out");
                 that.emit("disconnected", null);
                 that.TOid = 0;
             }
