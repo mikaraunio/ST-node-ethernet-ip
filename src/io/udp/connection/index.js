@@ -90,7 +90,7 @@ class Connection extends EventEmitter {
         that.tcpController = new TCPController(true, that.config.configInstance, that.config.outputInstance, that.config.inputInstance);
         that.tcpController.rpi = that.rpi;
         that.tcpController.timeout_sp = 2000;
-        that.tcpController.on("close", (hadError) => { console.log("!!! TCP Disconnected (hadError " + hadError + ")"); });
+        that.tcpController.on("close", (hadError) => { console.log("!!! TCP Disconnected (hadError: " + hadError + ")"); });
         that.tcpController.connect(that.address, 0, that.localAddress)
             .then ( () => {
                 that.OTid = that.tcpController.OTconnectionID;
